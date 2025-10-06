@@ -70,20 +70,24 @@ extension ToggleStyle where Self == LabeledToggleStyle {
     }
 }
 
-@available(iOS 17, *)
 #Preview {
-    @Previewable @State var isEnabled: Bool = true
-
-    HStack {
-        Text("Do you like coffee?")
-            .font(.title3)
-        Spacer()
-        Toggle("Do You Like Coffee", isOn: $isEnabled)
-        .toggleStyle(.labeled(off: "heart", on: "heart.fill"))
-        .tint(.brown)
-        .foregroundStyle(.red)
+    struct Demo: View {
+        @State private var isEnabled: Bool = true
+        var body: some View {
+            HStack {
+                Text("Do you like coffee?")
+                    .font(.title3)
+                Spacer()
+                Toggle("Do You Like Coffee", isOn: $isEnabled)
+                .toggleStyle(.labeled(off: "heart", on: "heart.fill"))
+                .tint(.brown)
+                .foregroundStyle(.red)
+                .toggleStyle(.button)
+            }
+            .padding(40)
+            .background(.ultraThinMaterial)
+            .frame(maxHeight: .infinity)
+        }
     }
-    .padding(40)
-    .background(.ultraThinMaterial)
-    .frame(maxHeight: .infinity)
+    return Demo()
 }
