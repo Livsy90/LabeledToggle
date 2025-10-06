@@ -7,9 +7,8 @@ The icon automatically switches sides and symbols based on both toggle state and
 
 ## Features
 
-- ✅ Persistent icon displayed directly on the toggle  
-- 🎯 Real-time response to drag gestures and tap position  
-- ⚙️ Adaptive offset calculation based on control width  
-- 🌐 Works with both LTR and RTL layout directions  
-- 💡 Plug-and-play design — no need to reimplement `ToggleStyle`
+- Persistent icon displayed directly on the toggle  
+- Real-time response to drag gestures and tap position  
+- Adaptive offset calculation based on control width  
+- Plug-and-play design — no need to reimplement `ToggleStyle`
 
