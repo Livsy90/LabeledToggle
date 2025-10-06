@@ -13,6 +13,7 @@ public struct LabeledToggleStyle: ToggleStyle {
 
     public func makeBody(configuration: Configuration) -> some View {
         Toggle(configuration)
+            .toggleStyle(.switch)
             .contentShape(.rect)
             .labelsHidden()
             .background(
