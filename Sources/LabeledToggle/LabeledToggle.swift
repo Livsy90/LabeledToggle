@@ -1,5 +1,6 @@
 import SwiftUI
 
+@available(iOS, deprecated: 16.0, message: "use .toggleStyle(.labeled(...)) instead")
 public struct LabeledToggle: View {
     @Binding private var isEnabled: Bool
     private let systemNames: (left: String, right: String)
