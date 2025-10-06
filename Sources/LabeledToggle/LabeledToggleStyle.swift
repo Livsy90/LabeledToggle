@@ -2,7 +2,6 @@ import SwiftUI
 
 @available(iOS 16, *)
 public struct LabeledToggleStyle: ToggleStyle {
-    @State private var isEnabled: Bool = false
     private let on, off: String
     @State private var isPressing: Bool = false
     @State private var viewWidth: CGFloat = 0
@@ -16,11 +15,7 @@ public struct LabeledToggleStyle: ToggleStyle {
     public func makeBody(configuration: Configuration) -> some View {
         Toggle(configuration)
             .onAppear {
-                isEnabled = configuration.isOn
                 isPressing = configuration.isMixed
-            }
-            .onChange(of: configuration.isOn) { newValue in
-                isEnabled = newValue
             }
             .onChange(of: configuration.isMixed) { newValue in
                 isPressing = newValue
@@ -37,8 +32,8 @@ public struct LabeledToggleStyle: ToggleStyle {
                 }
             )
             .overlay {
-                Image(systemName: systemName())
-                    .offset(x: offset())
+                Image(systemName: systemName(for: configuration))
+                    .offset(x: offset(for: configuration))
                     .animation(.linear.speed(3), value: isPressing)
                     .animation(.linear.speed(3), value: isRightSide)
                     .allowsHitTesting(false)
@@ -58,16 +53,16 @@ public struct LabeledToggleStyle: ToggleStyle {
             )
     }
 
-    private func offset() -> CGFloat {
-        if isPressing && isRightSide || isEnabled && !isPressing {
+    private func offset(for configuration: Configuration) -> CGFloat {
+        if isPressing && isRightSide || configuration.isOn && !isPressing {
             return 13
         } else {
             return -11
         }
     }
 
-    private func systemName() -> String {
-        if isPressing && isRightSide || isEnabled && !isPressing{
+    private func systemName(for configuration: Configuration) -> String {
+        if isPressing && isRightSide || configuration.isOn && !isPressing{
             return on
         } else {
             return off
