@@ -74,12 +74,16 @@ extension ToggleStyle where Self == LabeledToggleStyle {
 #Preview {
     @Previewable @State var isEnabled: Bool = true
 
-    Toggle("Do You Like Coffee", isOn: $isEnabled)
-        .font(.title3)
+    HStack {
+        Text("Do you like coffee?")
+            .font(.title3)
+        Spacer()
+        Toggle("Do You Like Coffee", isOn: $isEnabled)
         .toggleStyle(.labeled(off: "heart", on: "heart.fill"))
         .tint(.brown)
         .foregroundStyle(.red)
-        .padding(40)
-        .background(.ultraThinMaterial)
-        .frame(maxHeight: .infinity)
+    }
+    .padding(40)
+    .background(.ultraThinMaterial)
+    .frame(maxHeight: .infinity)
 }
