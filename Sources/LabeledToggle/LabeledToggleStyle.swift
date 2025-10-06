@@ -74,13 +74,20 @@ public struct LabeledToggleStyle: ToggleStyle {
     }
 }
 
+@available(iOS 16, *)
+extension ToggleStyle where Self == LabeledToggleStyle {
+    public static func labeled(systemNames: (left: String, right: String)) -> Self {
+        LabeledToggleStyle(systemNames: systemNames)
+    }
+}
+
 @available(iOS 17, *)
 #Preview {
     @Previewable @State var isEnabled: Bool = true
 
     Toggle("Do You Like Coffee", isOn: $isEnabled)
         .font(.title3)
-        .toggleStyle(LabeledToggleStyle(systemNames: ("heart", "heart.fill")))
+        .toggleStyle(.labeled(systemNames: ("heart", "heart.fill")))
         .tint(.brown)
         .foregroundStyle(.red)
         .padding(40)
