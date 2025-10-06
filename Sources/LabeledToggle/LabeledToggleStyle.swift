@@ -1,6 +1,5 @@
 import SwiftUI
 
-@available(iOS 16, *)
 public struct LabeledToggleStyle: ToggleStyle {
     private let on, off: String
     @State private var isPressing: Bool = false
@@ -14,12 +13,6 @@ public struct LabeledToggleStyle: ToggleStyle {
 
     public func makeBody(configuration: Configuration) -> some View {
         Toggle(configuration)
-            .onAppear {
-                isPressing = configuration.isMixed
-            }
-            .onChange(of: configuration.isMixed) { newValue in
-                isPressing = newValue
-            }
             .contentShape(.rect)
             .labelsHidden()
             .background(
@@ -70,7 +63,6 @@ public struct LabeledToggleStyle: ToggleStyle {
     }
 }
 
-@available(iOS 16, *)
 extension ToggleStyle where Self == LabeledToggleStyle {
     public static func labeled(off: String, on: String) -> Self {
         LabeledToggleStyle(off: off, on: on)
