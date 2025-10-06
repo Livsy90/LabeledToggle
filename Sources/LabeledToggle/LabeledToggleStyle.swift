@@ -3,13 +3,14 @@ import SwiftUI
 @available(iOS 16, *)
 public struct LabeledToggleStyle: ToggleStyle {
     @State private var isEnabled: Bool = false
-    private let systemNames: (left: String, right: String)
+    private let on, off: String
     @State private var isPressing: Bool = false
     @State private var viewWidth: CGFloat = 0
     @State private var isRightSide: Bool = false
 
-    public init(systemNames: (left: String, right: String)) {
-        self.systemNames = systemNames
+    public init(off: String, on: String) {
+        self.off = off
+        self.on = on
     }
 
     public func makeBody(configuration: Configuration) -> some View {
@@ -67,17 +68,17 @@ public struct LabeledToggleStyle: ToggleStyle {
 
     private func systemName() -> String {
         if isPressing && isRightSide || isEnabled && !isPressing{
-            return systemNames.right
+            return on
         } else {
-            return systemNames.left
+            return off
         }
     }
 }
 
 @available(iOS 16, *)
 extension ToggleStyle where Self == LabeledToggleStyle {
-    public static func labeled(systemNames: (left: String, right: String)) -> Self {
-        LabeledToggleStyle(systemNames: systemNames)
+    public static func labeled(off: String, on: String) -> Self {
+        LabeledToggleStyle(off: off, on: on)
     }
 }
 
@@ -87,7 +88,7 @@ extension ToggleStyle where Self == LabeledToggleStyle {
 
     Toggle("Do You Like Coffee", isOn: $isEnabled)
         .font(.title3)
-        .toggleStyle(.labeled(systemNames: ("heart", "heart.fill")))
+        .toggleStyle(.labeled(off: "heart", on: "heart.fill"))
         .tint(.brown)
         .foregroundStyle(.red)
         .padding(40)
