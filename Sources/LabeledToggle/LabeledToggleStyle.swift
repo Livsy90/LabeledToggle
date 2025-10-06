@@ -82,7 +82,6 @@ extension ToggleStyle where Self == LabeledToggleStyle {
                 .toggleStyle(.labeled(off: "heart", on: "heart.fill"))
                 .tint(.brown)
                 .foregroundStyle(.red)
-                .toggleStyle(.button)
             }
             .padding(40)
             .background(.ultraThinMaterial)
