@@ -50,11 +50,23 @@ public struct LabeledToggle: View {
             )
     }
     
+    private let rightOffset: CGFloat = if #available(iOS 26, *) {
+        13
+    } else {
+        11.4
+    }
+
+    private let leftOffset: CGFloat = if #available(iOS 26, *) {
+        -11
+    } else {
+        -9.4
+    }
+
     private func offset() -> CGFloat {
         if isPressing && isRightSide || isEnabled && !isPressing {
-            return 13
+            return rightOffset
         } else {
-            return -11
+            return leftOffset
         }
     }
     
