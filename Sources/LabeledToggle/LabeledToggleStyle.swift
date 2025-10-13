@@ -1,23 +1,19 @@
 import SwiftUI
 
-@available(*, deprecated, message: "use .toggleStyle(.labeled(...)) instead")
-public struct LabeledToggle: View {
-    @Binding private var isEnabled: Bool
-    private let systemNames: (left: String, right: String)
+public struct LabeledToggleStyle: ToggleStyle {
+    private let on, off: String
     @State private var isPressing: Bool = false
     @State private var viewWidth: CGFloat = 0
     @State private var isRightSide: Bool = false
-    
-    public init(
-        isEnabled: Binding<Bool>,
-        systemNames: (left: String, right: String)
-    ) {
-        _isEnabled = isEnabled
-        self.systemNames = systemNames
+
+    public init(off: String, on: String) {
+        self.off = off
+        self.on = on
     }
-    
-    public var body: some View {
-        Toggle("", isOn: $isEnabled)
+
+    public func makeBody(configuration: Configuration) -> some View {
+        Toggle(configuration)
+            .toggleStyle(.switch)
             .contentShape(.rect)
             .labelsHidden()
             .background(
@@ -30,8 +26,8 @@ public struct LabeledToggle: View {
                 }
             )
             .overlay {
-                Image(systemName: systemName())
-                    .offset(x: offset())
+                Image(systemName: systemName(for: configuration))
+                    .offset(x: offset(for: configuration))
                     .animation(.linear.speed(3), value: isPressing)
                     .animation(.linear.speed(3), value: isRightSide)
                     .allowsHitTesting(false)
@@ -50,21 +46,39 @@ public struct LabeledToggle: View {
                     }
             )
     }
-    
-    private func offset() -> CGFloat {
-        if isPressing && isRightSide || isEnabled && !isPressing {
-            return 13
+
+    private let rightOffset: CGFloat = if #available(iOS 26, *) {
+        13
+    } else {
+        11.4
+    }
+
+    private let leftOffset: CGFloat = if #available(iOS 26, *) {
+        -11
+    } else {
+        -9.4
+    }
+
+    private func offset(for configuration: Configuration) -> CGFloat {
+        if isPressing && isRightSide || configuration.isOn && !isPressing {
+            return rightOffset
         } else {
-            return -11
+            return leftOffset
         }
     }
-    
-    private func systemName() -> String {
-        if isPressing && isRightSide || isEnabled && !isPressing{
-            return systemNames.right
+
+    private func systemName(for configuration: Configuration) -> String {
+        if isPressing && isRightSide || configuration.isOn && !isPressing{
+            return on
         } else {
-            return systemNames.left
+            return off
         }
+    }
+}
+
+extension ToggleStyle where Self == LabeledToggleStyle {
+    public static func labeled(off: String, on: String) -> Self {
+        LabeledToggleStyle(off: off, on: on)
     }
 }
 
@@ -76,10 +90,8 @@ public struct LabeledToggle: View {
                 Text("Do you like coffee?")
                     .font(.title3)
                 Spacer()
-                LabeledToggle(
-                    isEnabled: $isEnabled,
-                    systemNames: ("heart", "heart.fill")
-                )
+                Toggle("Do You Like Coffee", isOn: $isEnabled)
+                .toggleStyle(.labeled(off: "heart", on: "heart.fill"))
                 .tint(.brown)
                 .foregroundStyle(.red)
             }
